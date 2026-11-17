@@ -1,0 +1,19 @@
+services:
+  api:
+    build: ./CatalogoApartamentosAPI
+    environment:
+      # Equivale al perfil "Demostracion": catálogo en memoria y Swagger activo.
+      ASPNETCORE_ENVIRONMENT: Development
+      Catalogo__UsarDatosDemo: "true"
+    ports:
+      - "5143:5143"
+
+  web:
+    build: ./CatalogoApartamentosReact
+    environment:
+      # Vite reenvía /api al contenedor de la API.
+      VITE_API_TARGET: http://api:5143
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
